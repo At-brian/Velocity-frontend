@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Suivi de vélocité</title>
+    <style>
+        body {
+            font-family: 'Arial', 'Helvetica Neue', sans-serif;
+            background: #f8f8f8;
+            margin: 0;
+            padding: 0;
+            color: #222;
+        }
+        header {
+            background: #222;
+            color: #e2001a;
+            padding: 2rem 1rem 1.2rem 1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        h2 {
+            margin: 0 0 0.3em 0;
+            font-weight: 700;
+            font-size: 2.1rem;
+            letter-spacing: -1.5px;
+            color: #e2001a;
+            display: inline-block;
+        }
+        .subtitle {
+            color: #fff;
+            font-size: 1.07em;
+            opacity: 0.8;
+        }
+        main {
+            max-width: 680px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 13px;
+            box-shadow: 0 2px 14px #e2001a11;
+            padding: 2rem 1.1rem 2.3rem 1.1rem;
+        }
+        .row, .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.1rem;
+            align-items: center;
+        }
+        .row label {
+            flex: 1 0 100px;
+            min-width: 100px;
+            font-weight: 500;
+            color: #222;
+        }
+        .row input[type="text"], .row select {
+            min-width: 160px;
+        }
+        .row .delete-btn {
+            background: #fff;
+            color: #e2001a;
+            border: 2px solid #e2001a;
+            border-radius: 7px;
+            font-size: 1.18em;
+            padding: 0.40em 0.7em 0.37em 0.7em;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+        }
+        .row .delete-btn:hover {
+            background: #e2001a;
+            color: #fff;
+        }
+        .inputs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr) auto;
+            gap: 1rem;
+            margin-bottom: 1.1rem;
+            align-items: end;
+        }
+        .inputs label {
+            display: flex;
+            flex-direction: column;
+            font-weight: 500;
+            color: #222;
+        }
+        .inputs input {
+            width: 100%;
+            min-width: 90px;
+            box-sizing: border-box;
+        }
+        select, input {
+            border: 1px solid #d5d5d5;
+            border-radius: 7px;
+            padding: 0.48rem 0.65rem;
+            font-size: 1rem;
+            background: #f8f8f8;
+            margin-right: 4px;
+            outline: none;
+            transition: border .2s;
+        }
+        select:focus, input:focus {
+            border-color: #e2001a;
+            background: #fff;
+        }
+        button {
+            background: #e2001a;
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            padding: 0.45rem 1.13rem;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.15s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px #2221;
+            letter-spacing: 0.01em;
+        }
+        button:hover, button:focus {
+            background: #222;
+            color: #fff;
+        }
+        button[style*="red"] {
+            background: #fff;
+            color: #e2001a;
+            border: 2px solid #e2001a;
+        }
+        button[style*="red"]:hover {
+            background: #e2001a;
+            color: #fff;
+        }
+        button[style*="green"] {
+            background: #fff;
+            color: #222;
+            border: 2px solid #222;
+        }
+        button[style*="green"]:hover {
+            background: #222;
+            color: #fff;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            margin-bottom: 1.6rem;
+            border-radius: 7px;
+            overflow: hidden;
+            box-shadow: 0 2px 7px #e2001a0b;
+        }
+        th, td {
+            padding: 0.67em 0.35em;
+            text-align: left;
+        }
+        th {
+            background: #eeeeee;
+            font-weight: 600;
+            color: #e2001a;
+            font-size: 1.07em;
+            border-bottom: 2px solid #d5d5d5;
+        }
+        tr:nth-child(even) td {
+            background: #fafafa;
+        }
+        tr:hover td {
+            background: #ffe8eb44;
+        }
+        #stats {
+            font-size: 1.12em;
+            margin-top: 1em;
+            color: #e2001a;
+        }
+        @media (max-width: 780px) {
+            .inputs {
+                grid-template-columns: 1fr;
+            }
+            .inputs button {
+                width: 100%;
+                margin-top: 0.4em;
+            }
+        }
+        @media (max-width: 680px) {
+            main { padding: 0.7rem 0.25rem 2rem 0.25rem; }
+            .row, .actions { flex-direction: column; align-items: stretch; gap: 0.4rem; }
+            table, th, td { font-size: 0.98em; }
+            .inputs label { margin-bottom: 0.2em; }
+        }
+        footer {
+            text-align: center;
+            color: #b0b3bc;
+            margin-top: 2.5em;
+            font-size: .98em;
+        }
+        ::placeholder { color: #bbb; }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>Suivi de vélocité</h2>
+        <div class="subtitle">Toolbox d'Atman</div>
+    </header>
+    <main>
+        <div class="row">
+            <label>Équipe :
+                <select id="teamSelect"></select>
+            </label>
+            <input id="newTeamInput" placeholder="Nouvelle équipe">
+            <button id="addTeamBtn" title="Ajouter une nouvelle équipe">+ Équipe</button>
+            <button class="delete-btn" id="deleteTeamBtn" title="Supprimer l’équipe sélectionnée">🗑️</button>
+        </div>
+        <form class="inputs" onsubmit="return false;">
+            <label>Nom du sprint :
+                <input id="sprintNameInput" placeholder="Sprint 1">
+            </label>
+            <label>Capacité :
+                <input id="capacityInput" type="number" min="1" value="30">
+            </label>
+            <label>Points réalisés :
+                <input id="doneInput" type="number" min="0" value="0">
+            </label>
+            <button id="addSprintBtn" title="Ajouter ce sprint">+ Sprint</button>
+        </form>
+        <div class="actions">
+            <button id="resetBtn" style="red">Réinitialiser équipe</button>
+            <button id="exportBtn" style="green">Exporter CSV</button>
+        </div>
+        <table id="velocityTable">
+            <tr>
+                <th>#</th>
+                <th>Nom du sprint</th>
+                <th>Capacité</th>
+                <th>Points réalisés</th>
+            </tr>
+        </table>
+        <div id="stats"></div>
+    </main>
+    <footer>
+        
+    </footer>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let allTeams;
+        try {
+            allTeams = JSON.parse(localStorage.getItem('myTeamsStorage'));
+            if (!allTeams || typeof allTeams !== 'object') throw new Error();
+        } catch(e) {
+            allTeams = {"Equipe A": []};
+        }
+        let currentTeam = Object.keys(allTeams)[0] || "Equipe A";
+        const teamSelect = document.getElementById('teamSelect');
+        const newTeamInput = document.getElementById('newTeamInput');
+        const addTeamBtn = document.getElementById('addTeamBtn');
+        const deleteTeamBtn = document.getElementById('deleteTeamBtn');
+        const sprintNameInput = document.getElementById('sprintNameInput');
+        const capacityInput = document.getElementById('capacityInput');
+        const doneInput = document.getElementById('doneInput');
+        const addSprintBtn = document.getElementById('addSprintBtn');
+        const velocityTable = document.getElementById('velocityTable');
+        const resetBtn = document.getElementById('resetBtn');
+        const exportBtn = document.getElementById('exportBtn');
+        const statsDiv = document.getElementById('stats');
+        function save() { localStorage.setItem('myTeamsStorage', JSON.stringify(allTeams)); }
+        function updateTeamSelect() {
+            teamSelect.innerHTML = '';
+            Object.keys(allTeams).forEach(team => {
+                let option = document.createElement('option');
+                option.value = team;
+                option.innerText = team;
+                teamSelect.appendChild(option);
+            });
+            teamSelect.value = currentTeam;
+            // Désactive suppression si une seule équipe
+            deleteTeamBtn.disabled = Object.keys(allTeams).length <= 1;
+        }
+        function updateTable() {
+            velocityTable.innerHTML = '<tr><th>#</th><th>Nom du sprint</th><th>Capacité</th><th>Points réalisés</th></tr>';
+            allTeams[currentTeam].forEach((sprint, idx) => {
+                velocityTable.innerHTML += `<tr>
+                    <td>${idx+1}</td>
+                    <td>${sprint.name ? sprint.name : ''}</td>
+                    <td>${sprint.capacity}</td>
+                    <td>${sprint.done}</td>
+                </tr>`;
+            });
+        }
+        function updateStats() {
+            let sprints = allTeams[currentTeam];
+            if (!sprints || sprints.length === 0) {
+                statsDiv.innerHTML = 'Pas de sprint ajouté.';
+                return;
+            }
+            const total = sprints.reduce((sum, s) => sum + s.done, 0);
+            const avg = (total / sprints.length).toFixed(2);
+            statsDiv.innerHTML = `<b>Vélocité moyenne :</b> ${avg} points/sprint`;
+        }
+        addTeamBtn.onclick = function() {
+            const name = newTeamInput.value.trim();
+            if (name && !allTeams[name]) {
+                allTeams[name] = [];
+                currentTeam = name;
+                save();
+                updateTeamSelect();
+                updateTable();
+                updateStats();
+                newTeamInput.value = '';
+            }
+        };
+        teamSelect.onchange = function() {
+            currentTeam = this.value;
+            updateTable();
+            updateStats();
+        };
+        addSprintBtn.onclick = function() {
+            const sprintName = sprintNameInput.value.trim();
+            const capacity = parseInt(capacityInput.value, 10);
+            const done = parseInt(doneInput.value, 10);
+            if (!isNaN(capacity) && !isNaN(done)) {
+                allTeams[currentTeam].push({name: sprintName, capacity, done});
+                save();
+                updateTable();
+                updateStats();
+                sprintNameInput.value = '';
+            }
+        };
+        resetBtn.onclick = function() {
+            if (confirm("Effacer tous les sprints de cette équipe ?")) {
+                allTeams[currentTeam] = [];
+                save();
+                updateTable();
+                updateStats();
+            }
+        };
+        deleteTeamBtn.onclick = function() {
+            if (Object.keys(allTeams).length <= 1) {
+                alert("Il doit rester au moins une équipe !");
+                return;
+            }
+            if (confirm(`Supprimer définitivement l'équipe "${currentTeam}" ?`)) {
+                delete allTeams[currentTeam];
+                // Sélectionne la première équipe restante
+                currentTeam = Object.keys(allTeams)[0];
+                save();
+                updateTeamSelect();
+                updateTable();
+                updateStats();
+            }
+        };
+        exportBtn.onclick = function() {
+            let sprints = allTeams[currentTeam];
+            if (!sprints || sprints.length === 0) return;
+            let csv = "Numéro,Nom du sprint,Capacité,Points réalisés\n";
+            sprints.forEach((s, idx) => {
+                csv += `${idx+1},"${s.name ? s.name.replace(/"/g, '""') : ''}",${s.capacity},${s.done}\n`;
+            });
+            let blob = new Blob([csv], {type: 'text/csv'});
+            let url = URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = `velocite_${currentTeam.replace(/\\s/g,'_')}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+        };
+        updateTeamSelect();
+        updateTable();
+        updateStats();
+    });
+    </script>
+</body>
+</html>
