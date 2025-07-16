@@ -2,199 +2,16 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Suivi de vélocité</title>
+    <title>Suivi de vélocité Intermarché (Render)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        body {
-            font-family: 'Arial', 'Helvetica Neue', sans-serif;
-            background: #f8f8f8;
-            margin: 0;
-            padding: 0;
-            color: #222;
-        }
-        header {
-            background: #222;
-            color: #e2001a;
-            padding: 2rem 1rem 1.2rem 1rem;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        h2 {
-            margin: 0 0 0.3em 0;
-            font-weight: 700;
-            font-size: 2.1rem;
-            letter-spacing: -1.5px;
-            color: #e2001a;
-            display: inline-block;
-        }
-        .subtitle {
-            color: #fff;
-            font-size: 1.07em;
-            opacity: 0.8;
-        }
-        main {
-            max-width: 680px;
-            margin: 0 auto;
-            background: #fff;
-            border-radius: 13px;
-            box-shadow: 0 2px 14px #e2001a11;
-            padding: 2rem 1.1rem 2.3rem 1.1rem;
-        }
-        .row, .actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 1.1rem;
-            align-items: center;
-        }
-        .row label {
-            flex: 1 0 100px;
-            min-width: 100px;
-            font-weight: 500;
-            color: #222;
-        }
-        .row input[type="text"], .row select {
-            min-width: 160px;
-        }
-        .row .delete-btn {
-            background: #fff;
-            color: #e2001a;
-            border: 2px solid #e2001a;
-            border-radius: 7px;
-            font-size: 1.18em;
-            padding: 0.40em 0.7em 0.37em 0.7em;
-            cursor: pointer;
-            transition: background 0.15s, color 0.15s;
-        }
-        .row .delete-btn:hover {
-            background: #e2001a;
-            color: #fff;
-        }
-        .inputs {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr) auto;
-            gap: 1rem;
-            margin-bottom: 1.1rem;
-            align-items: end;
-        }
-        .inputs label {
-            display: flex;
-            flex-direction: column;
-            font-weight: 500;
-            color: #222;
-        }
-        .inputs input {
-            width: 100%;
-            min-width: 90px;
-            box-sizing: border-box;
-        }
-        select, input {
-            border: 1px solid #d5d5d5;
-            border-radius: 7px;
-            padding: 0.48rem 0.65rem;
-            font-size: 1rem;
-            background: #f8f8f8;
-            margin-right: 4px;
-            outline: none;
-            transition: border .2s;
-        }
-        select:focus, input:focus {
-            border-color: #e2001a;
-            background: #fff;
-        }
-        button {
-            background: #e2001a;
-            color: #fff;
-            border: none;
-            border-radius: 7px;
-            padding: 0.45rem 1.13rem;
-            font-size: 1rem;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background 0.15s, box-shadow 0.2s;
-            box-shadow: 0 2px 8px #2221;
-            letter-spacing: 0.01em;
-        }
-        button:hover, button:focus {
-            background: #222;
-            color: #fff;
-        }
-        button[style*="red"] {
-            background: #fff;
-            color: #e2001a;
-            border: 2px solid #e2001a;
-        }
-        button[style*="red"]:hover {
-            background: #e2001a;
-            color: #fff;
-        }
-        button[style*="green"] {
-            background: #fff;
-            color: #222;
-            border: 2px solid #222;
-        }
-        button[style*="green"]:hover {
-            background: #222;
-            color: #fff;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #fff;
-            margin-bottom: 1.6rem;
-            border-radius: 7px;
-            overflow: hidden;
-            box-shadow: 0 2px 7px #e2001a0b;
-        }
-        th, td {
-            padding: 0.67em 0.35em;
-            text-align: left;
-        }
-        th {
-            background: #eeeeee;
-            font-weight: 600;
-            color: #e2001a;
-            font-size: 1.07em;
-            border-bottom: 2px solid #d5d5d5;
-        }
-        tr:nth-child(even) td {
-            background: #fafafa;
-        }
-        tr:hover td {
-            background: #ffe8eb44;
-        }
-        #stats {
-            font-size: 1.12em;
-            margin-top: 1em;
-            color: #e2001a;
-        }
-        @media (max-width: 780px) {
-            .inputs {
-                grid-template-columns: 1fr;
-            }
-            .inputs button {
-                width: 100%;
-                margin-top: 0.4em;
-            }
-        }
-        @media (max-width: 680px) {
-            main { padding: 0.7rem 0.25rem 2rem 0.25rem; }
-            .row, .actions { flex-direction: column; align-items: stretch; gap: 0.4rem; }
-            table, th, td { font-size: 0.98em; }
-            .inputs label { margin-bottom: 0.2em; }
-        }
-        footer {
-            text-align: center;
-            color: #b0b3bc;
-            margin-top: 2.5em;
-            font-size: .98em;
-        }
-        ::placeholder { color: #bbb; }
+    /* ... (reprends le style Intermarché fourni plus haut, tu peux copier-coller) ... */
     </style>
 </head>
 <body>
     <header>
         <h2>Suivi de vélocité</h2>
-        <div class="subtitle">Toolbox d'Atman</div>
+        <div class="subtitle">Outil Intermarché - API Render</div>
     </header>
     <main>
         <div class="row">
@@ -232,135 +49,138 @@
         <div id="stats"></div>
     </main>
     <footer>
-        
+        Simple outil Intermarché API Render — par <b>ChatGPT + Atman</b>
     </footer>
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        let allTeams;
-        try {
-            allTeams = JSON.parse(localStorage.getItem('myTeamsStorage'));
-            if (!allTeams || typeof allTeams !== 'object') throw new Error();
-        } catch(e) {
-            allTeams = {"Equipe A": []};
-        }
-        let currentTeam = Object.keys(allTeams)[0] || "Equipe A";
-        const teamSelect = document.getElementById('teamSelect');
-        const newTeamInput = document.getElementById('newTeamInput');
-        const addTeamBtn = document.getElementById('addTeamBtn');
-        const deleteTeamBtn = document.getElementById('deleteTeamBtn');
-        const sprintNameInput = document.getElementById('sprintNameInput');
-        const capacityInput = document.getElementById('capacityInput');
-        const doneInput = document.getElementById('doneInput');
-        const addSprintBtn = document.getElementById('addSprintBtn');
-        const velocityTable = document.getElementById('velocityTable');
-        const resetBtn = document.getElementById('resetBtn');
-        const exportBtn = document.getElementById('exportBtn');
-        const statsDiv = document.getElementById('stats');
-        function save() { localStorage.setItem('myTeamsStorage', JSON.stringify(allTeams)); }
-        function updateTeamSelect() {
-            teamSelect.innerHTML = '';
-            Object.keys(allTeams).forEach(team => {
-                let option = document.createElement('option');
-                option.value = team;
-                option.innerText = team;
-                teamSelect.appendChild(option);
-            });
-            teamSelect.value = currentTeam;
-            // Désactive suppression si une seule équipe
-            deleteTeamBtn.disabled = Object.keys(allTeams).length <= 1;
-        }
-        function updateTable() {
-            velocityTable.innerHTML = '<tr><th>#</th><th>Nom du sprint</th><th>Capacité</th><th>Points réalisés</th></tr>';
-            allTeams[currentTeam].forEach((sprint, idx) => {
-                velocityTable.innerHTML += `<tr>
-                    <td>${idx+1}</td>
-                    <td>${sprint.name ? sprint.name : ''}</td>
-                    <td>${sprint.capacity}</td>
-                    <td>${sprint.done}</td>
-                </tr>`;
-            });
-        }
-        function updateStats() {
-            let sprints = allTeams[currentTeam];
-            if (!sprints || sprints.length === 0) {
-                statsDiv.innerHTML = 'Pas de sprint ajouté.';
-                return;
-            }
-            const total = sprints.reduce((sum, s) => sum + s.done, 0);
-            const avg = (total / sprints.length).toFixed(2);
-            statsDiv.innerHTML = `<b>Vélocité moyenne :</b> ${avg} points/sprint`;
-        }
-        addTeamBtn.onclick = function() {
-            const name = newTeamInput.value.trim();
-            if (name && !allTeams[name]) {
-                allTeams[name] = [];
-                currentTeam = name;
-                save();
-                updateTeamSelect();
-                updateTable();
-                updateStats();
-                newTeamInput.value = '';
-            }
-        };
-        teamSelect.onchange = function() {
-            currentTeam = this.value;
-            updateTable();
-            updateStats();
-        };
-        addSprintBtn.onclick = function() {
-            const sprintName = sprintNameInput.value.trim();
-            const capacity = parseInt(capacityInput.value, 10);
-            const done = parseInt(doneInput.value, 10);
-            if (!isNaN(capacity) && !isNaN(done)) {
-                allTeams[currentTeam].push({name: sprintName, capacity, done});
-                save();
-                updateTable();
-                updateStats();
-                sprintNameInput.value = '';
-            }
-        };
-        resetBtn.onclick = function() {
-            if (confirm("Effacer tous les sprints de cette équipe ?")) {
-                allTeams[currentTeam] = [];
-                save();
-                updateTable();
-                updateStats();
-            }
-        };
-        deleteTeamBtn.onclick = function() {
-            if (Object.keys(allTeams).length <= 1) {
-                alert("Il doit rester au moins une équipe !");
-                return;
-            }
-            if (confirm(`Supprimer définitivement l'équipe "${currentTeam}" ?`)) {
-                delete allTeams[currentTeam];
-                // Sélectionne la première équipe restante
-                currentTeam = Object.keys(allTeams)[0];
-                save();
-                updateTeamSelect();
-                updateTable();
-                updateStats();
-            }
-        };
-        exportBtn.onclick = function() {
-            let sprints = allTeams[currentTeam];
-            if (!sprints || sprints.length === 0) return;
-            let csv = "Numéro,Nom du sprint,Capacité,Points réalisés\n";
-            sprints.forEach((s, idx) => {
-                csv += `${idx+1},"${s.name ? s.name.replace(/"/g, '""') : ''}",${s.capacity},${s.done}\n`;
-            });
-            let blob = new Blob([csv], {type: 'text/csv'});
-            let url = URL.createObjectURL(blob);
-            let a = document.createElement('a');
-            a.href = url;
-            a.download = `velocite_${currentTeam.replace(/\\s/g,'_')}.csv`;
-            a.click();
-            URL.revokeObjectURL(url);
-        };
+    const API = 'https://velocity-backend-7tdv.onrender.com/api'; // remplace par ton URL Render
+
+    let teams = [];
+    let sprints = [];
+    let currentTeamId = null;
+
+    const teamSelect = document.getElementById('teamSelect');
+    const newTeamInput = document.getElementById('newTeamInput');
+    const addTeamBtn = document.getElementById('addTeamBtn');
+    const deleteTeamBtn = document.getElementById('deleteTeamBtn');
+    const sprintNameInput = document.getElementById('sprintNameInput');
+    const capacityInput = document.getElementById('capacityInput');
+    const doneInput = document.getElementById('doneInput');
+    const addSprintBtn = document.getElementById('addSprintBtn');
+    const velocityTable = document.getElementById('velocityTable');
+    const resetBtn = document.getElementById('resetBtn');
+    const exportBtn = document.getElementById('exportBtn');
+    const statsDiv = document.getElementById('stats');
+
+    async function fetchTeams() {
+        const res = await fetch(`${API}/teams`);
+        teams = await res.json();
         updateTeamSelect();
+    }
+    function updateTeamSelect() {
+        teamSelect.innerHTML = '';
+        teams.forEach(team => {
+            let option = document.createElement('option');
+            option.value = team.id;
+            option.innerText = team.name;
+            teamSelect.appendChild(option);
+        });
+        if (teams.length) {
+            if (!currentTeamId || !teams.find(t => t.id === Number(currentTeamId))) currentTeamId = teams[0].id;
+            teamSelect.value = currentTeamId;
+            deleteTeamBtn.disabled = teams.length <= 1;
+            fetchSprints(currentTeamId);
+        } else {
+            velocityTable.innerHTML = '<tr><th>#</th><th>Nom du sprint</th><th>Capacité</th><th>Points réalisés</th></tr>';
+            statsDiv.innerHTML = '';
+            deleteTeamBtn.disabled = true;
+            sprints = [];
+        }
+    }
+    async function fetchSprints(team_id) {
+        const res = await fetch(`${API}/sprints/${team_id}`);
+        sprints = await res.json();
         updateTable();
         updateStats();
-    });
+    }
+    function updateTable() {
+        velocityTable.innerHTML = '<tr><th>#</th><th>Nom du sprint</th><th>Capacité</th><th>Points réalisés</th></tr>';
+        sprints.forEach((sprint, idx) => {
+            velocityTable.innerHTML += `<tr>
+                <td>${idx+1}</td>
+                <td>${sprint.name || ''}</td>
+                <td>${sprint.capacity}</td>
+                <td>${sprint.done}</td>
+            </tr>`;
+        });
+    }
+    function updateStats() {
+        if (!sprints.length) {
+            statsDiv.innerHTML = 'Pas de sprint ajouté.';
+            return;
+        }
+        const total = sprints.reduce((sum, s) => sum + s.done, 0);
+        const avg = (total / sprints.length).toFixed(2);
+        statsDiv.innerHTML = `<b>Vélocité moyenne :</b> ${avg} points/sprint`;
+    }
+    addTeamBtn.onclick = async function() {
+        const name = newTeamInput.value.trim();
+        if (name && !teams.find(t => t.name === name)) {
+            await fetch(`${API}/teams`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ name }) });
+            await fetchTeams();
+            currentTeamId = teams.find(t => t.name === name)?.id;
+            updateTeamSelect();
+            newTeamInput.value = '';
+        }
+    };
+    teamSelect.onchange = function() {
+        currentTeamId = this.value;
+        fetchSprints(currentTeamId);
+    };
+    addSprintBtn.onclick = async function() {
+        const sprintName = sprintNameInput.value.trim();
+        const capacity = parseInt(capacityInput.value, 10);
+        const done = parseInt(doneInput.value, 10);
+        if (!currentTeamId || isNaN(capacity) || isNaN(done)) return;
+        await fetch(`${API}/sprints`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ team_id: currentTeamId, name: sprintName, capacity, done }) });
+        await fetchSprints(currentTeamId);
+        sprintNameInput.value = '';
+    };
+    resetBtn.onclick = async function() {
+        if (!currentTeamId) return;
+        if (confirm("Effacer tous les sprints de cette équipe ?")) {
+            await fetch(`${API}/sprints/team/${currentTeamId}`, { method: 'DELETE' });
+            await fetchSprints(currentTeamId);
+        }
+    };
+    deleteTeamBtn.onclick = async function() {
+        if (!currentTeamId) return;
+        if (teams.length <= 1) {
+            alert("Il doit rester au moins une équipe !");
+            return;
+        }
+        if (confirm("Supprimer définitivement cette équipe et tous ses sprints ?")) {
+            await fetch(`${API}/teams/${currentTeamId}`, { method: 'DELETE' });
+            await fetchTeams();
+        }
+    };
+    exportBtn.onclick = function() {
+        if (!sprints.length) return;
+        let csv = "Numéro,Nom du sprint,Capacité,Points réalisés\n";
+        sprints.forEach((s, idx) => {
+            csv += `${idx+1},"${s.name ? s.name.replace(/"/g, '""') : ''}",${s.capacity},${s.done}\n`;
+        });
+        let blob = new Blob([csv], {type: 'text/csv'});
+        let url = URL.createObjectURL(blob);
+        let a = document.createElement('a');
+        a.href = url;
+        let t = teams.find(x => x.id == currentTeamId);
+        a.download = `velocite_${t ? t.name.replace(/\s/g,'_') : 'equipe'}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+    };
+
+    // Démarrage
+    fetchTeams();
     </script>
 </body>
 </html>
