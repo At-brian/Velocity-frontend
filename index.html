@@ -5,21 +5,19 @@
     <title>Suivi de vélocité Intermarché (Render)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
-    <style>
-
-    </style>
 </head>
 <body>
     <header>
         <h2>Suivi de vélocité</h2>
         <div class="subtitle"></div>
         <nav>
-  <button onclick="showSection('velocitySection')">Vélocité</button>
-  <button onclick="showSection('capacitySection')">Capacité</button>
-</nav>
-
+            <button onclick="showSection('velocitySection')">Vélocité</button>
+            <button onclick="showSection('capacitySection')">Capacité</button>
+        </nav>
     </header>
-    <main>
+
+    <!-- Section Vélocité -->
+    <main id="velocitySection" style="display:block;">
         <div class="row">
             <label>Équipe :
                 <select id="teamSelect"></select>
@@ -53,56 +51,61 @@
             </tr>
         </table>
         <div id="stats"></div>
-        <main id="capacitySection" style="display:none;">
-    <h2>Calculateur de capacité</h2>
-    <div class="row">
-        <label>Équipe :
-            <select id="capacityTeamSelect"></select>
-        </label>
-        <label>Sprint :
-            <select id="capacitySprintSelect"></select>
-        </label>
-    </div>
-    <div class="row">
-        <label>Jours du sprint :
-            <input type="number" id="capacityDaysInput" min="1" value="10">
-        </label>
-        <label>% RUN/rituel/innovation :
-            <input type="number" id="capacityPercentInput" min="0" max="100" value="70"> %
-        </label>
-    </div>
-    <table id="capacityRolesTable">
-        <thead>
-            <tr>
-                <th>Rôle</th>
-                <th>Nb personnes</th>
-                <th>Jours d'absence</th>
-                <th>Capacité brute</th>
-                <th>Capacité nette</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Lignes dynamiques JS -->
-        </tbody>
-    </table>
-    <button id="addRoleBtn">+ Ajouter un rôle</button>
-    <div id="capacityTotal"></div>
-</main>
-
     </main>
-    <script>
-function showSection(id) {
-    document.getElementById('velocitySection').style.display = (id === 'velocitySection' ? 'block' : 'none');
-    document.getElementById('capacitySection').style.display = (id === 'capacitySection' ? 'block' : 'none');
-}
-</script>
+
+    <!-- Section Capacité -->
+    <main id="capacitySection" style="display:none;">
+        <h2>Calculateur de capacité</h2>
+        <div class="row">
+            <label>Équipe :
+                <select id="capacityTeamSelect"></select>
+            </label>
+            <label>Sprint :
+                <select id="capacitySprintSelect"></select>
+            </label>
+        </div>
+        <div class="row">
+            <label>Jours du sprint :
+                <input type="number" id="capacityDaysInput" min="1" value="10">
+            </label>
+            <label>% RUN/rituel/innovation :
+                <input type="number" id="capacityPercentInput" min="0" max="100" value="70"> %
+            </label>
+        </div>
+        <table id="capacityRolesTable">
+            <thead>
+                <tr>
+                    <th>Rôle</th>
+                    <th>Nb personnes</th>
+                    <th>Jours d'absence</th>
+                    <th>Capacité brute</th>
+                    <th>Capacité nette</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Lignes dynamiques JS -->
+            </tbody>
+        </table>
+        <button id="addRoleBtn">+ Ajouter un rôle</button>
+        <div id="capacityTotal"></div>
+    </main>
 
     <footer>
-        Atman</b>
+        Atman
     </footer>
+
+    <!-- SCRIPTS -->
     <script>
-    const API = 'https://velocity-backend-7tdv.onrender.com/api'; // remplace par ton URL Render
+    // Navigation entre sections
+    function showSection(id) {
+        document.getElementById('velocitySection').style.display = (id === 'velocitySection' ? 'block' : 'none');
+        document.getElementById('capacitySection').style.display = (id === 'capacitySection' ? 'block' : 'none');
+    }
+    </script>
+    <script>
+    // --- TON CODE JS VÉLOCITÉ ---
+    const API = 'https://velocity-backend-7tdv.onrender.com/api'; // adapte si besoin
 
     let teams = [];
     let sprints = [];
@@ -229,223 +232,10 @@ function showSection(id) {
         URL.revokeObjectURL(url);
     };
 
-        // ==== PARTIE CAPACITÉ ====
+    // --- CODE JS CAPACITÉ ICI : COLLE LE CODE FOURNI PRÉCÉDEMMENT SANS <script> ---
+    // (Pour éviter la répétition, copie le bloc JS "partie capacité" déjà envoyé)
 
-// === PARAMÉTRAGE À ADAPTER SI BESOIN ===
-const API = "https://velocity-backend-7tdv.onrender.com/api"; // Ton URL d'API
-
-// === RÉFÉRENCES DOM ===
-const capacitySection = document.getElementById('capacitySection');
-const capacityTeamSelect = document.getElementById('capacityTeamSelect');
-const capacitySprintSelect = document.getElementById('capacitySprintSelect');
-const capacityDaysInput = document.getElementById('capacityDaysInput');
-const capacityPercentInput = document.getElementById('capacityPercentInput');
-const capacityRolesTable = document.getElementById('capacityRolesTable').getElementsByTagName('tbody')[0];
-const addRoleBtn = document.getElementById('addRoleBtn');
-const capacityTotal = document.getElementById('capacityTotal');
-
-// === VARIABLES GLOBALES ===
-let capacityTeams = [];
-let capacitySprints = [];
-let currentTeamId = null;
-let currentSprintId = null;
-let currentCapacityId = null;
-let currentRoles = [];
-
-// === CHARGEMENT DES ÉQUIPES ET SPRINTS ===
-async function loadCapacityTeams() {
-    const res = await fetch(`${API}/teams`);
-    capacityTeams = await res.json();
-    capacityTeamSelect.innerHTML = "";
-    capacityTeams.forEach(t => {
-        const opt = document.createElement('option');
-        opt.value = t.id;
-        opt.textContent = t.name;
-        capacityTeamSelect.appendChild(opt);
-    });
-    if (capacityTeams.length) {
-        currentTeamId = capacityTeams[0].id;
-        await loadCapacitySprints();
-    }
-}
-
-async function loadCapacitySprints() {
-    const res = await fetch(`${API}/sprints/${currentTeamId}`);
-    capacitySprints = await res.json();
-    capacitySprintSelect.innerHTML = "";
-    capacitySprints.forEach(s => {
-        const opt = document.createElement('option');
-        opt.value = s.id;
-        opt.textContent = s.name;
-        capacitySprintSelect.appendChild(opt);
-    });
-    if (capacitySprints.length) {
-        currentSprintId = capacitySprints[0].id;
-        await loadCapacityData();
-    }
-}
-
-// === CHARGEMENT DE LA CAPACITÉ ET DES RÔLES ===
-async function loadCapacityData() {
-    if (!currentTeamId || !currentSprintId) return;
-    // Charge la capacité existante
-    const res = await fetch(`${API}/capacity/${currentTeamId}/${currentSprintId}`);
-    const cap = await res.json();
-    if (cap) {
-        currentCapacityId = cap.id;
-        capacityDaysInput.value = cap.days_sprint;
-        capacityPercentInput.value = cap.percent_run;
-    } else {
-        currentCapacityId = null;
-        capacityDaysInput.value = 10;
-        capacityPercentInput.value = 70;
-    }
-    await loadCapacityRoles();
-    calcAndRenderCapacity();
-}
-
-// Charge les rôles pour la capacité courante
-async function loadCapacityRoles() {
-    if (!currentCapacityId) {
-        currentRoles = [];
-        renderRolesTable();
-        return;
-    }
-    const res = await fetch(`${API}/capacity_roles/${currentCapacityId}`);
-    currentRoles = await res.json();
-    renderRolesTable();
-}
-
-// === RENDU DU TABLEAU DES RÔLES ===
-function renderRolesTable() {
-    capacityRolesTable.innerHTML = "";
-    currentRoles.forEach((r, idx) => {
-        const row = capacityRolesTable.insertRow();
-        row.innerHTML = `
-            <td><input type="text" value="${r.role}" onchange="editRole(${idx}, 'role', this.value)"></td>
-            <td><input type="number" min="0" value="${r.nbr_personnes}" onchange="editRole(${idx}, 'nbr_personnes', this.value)"></td>
-            <td><input type="number" min="0" value="${r.jours_absence}" onchange="editRole(${idx}, 'jours_absence', this.value)"></td>
-            <td id="brute-${idx}"></td>
-            <td id="nette-${idx}"></td>
-            <td><button onclick="deleteRole(${idx})">🗑️</button></td>
-        `;
-    });
-    calcAndRenderCapacity();
-}
-
-// === CALCUL AUTOMATIQUE DE CAPACITÉ ===
-function calcAndRenderCapacity() {
-    const days = parseFloat(capacityDaysInput.value) || 0;
-    const percent = parseFloat(capacityPercentInput.value) || 100;
-    let totalNette = 0;
-    let totalBrute = 0;
-    currentRoles.forEach((r, idx) => {
-        const capBrute = (r.nbr_personnes || 0) * days - (r.jours_absence || 0);
-        const capNette = capBrute * (percent / 100);
-        totalBrute += capBrute;
-        totalNette += capNette;
-        // Affichage dans la table
-        const cellBrute = document.getElementById(`brute-${idx}`);
-        const cellNette = document.getElementById(`nette-${idx}`);
-        if (cellBrute) cellBrute.textContent = Math.round(capBrute * 100) / 100;
-        if (cellNette) cellNette.textContent = Math.round(capNette * 100) / 100;
-    });
-    capacityTotal.innerHTML = `<b>Capacité totale brute :</b> ${Math.round(totalBrute*100)/100} &nbsp; | &nbsp; <b>Capacité nette :</b> ${Math.round(totalNette*100)/100}`;
-}
-
-// === AJOUT/SUPPRESSION/ÉDITION DE RÔLES ===
-window.editRole = async function(idx, field, value) {
-    const role = currentRoles[idx];
-    role[field] = (field === "role") ? value : Number(value);
-    // Sauvegarde immédiate
-    await fetch(`${API}/capacity_role`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            id: role.id,
-            capacity_id: currentCapacityId,
-            role: role.role,
-            nbr_personnes: role.nbr_personnes,
-            jours_absence: role.jours_absence
-        })
-    });
-    // Recharge pour cohérence
-    await loadCapacityRoles();
-}
-
-window.deleteRole = async function(idx) {
-    if (!confirm("Supprimer ce rôle ?")) return;
-    const role = currentRoles[idx];
-    await fetch(`${API}/capacity_role/${role.id}`, { method: "DELETE" });
-    await loadCapacityRoles();
-}
-
-addRoleBtn.onclick = async function() {
-    if (!currentCapacityId) {
-        // On doit d'abord sauvegarder la capacité
-        await saveCapacityData();
-    }
-    await fetch(`${API}/capacity_role`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            capacity_id: currentCapacityId,
-            role: "Nouveau rôle",
-            nbr_personnes: 1,
-            jours_absence: 0
-        })
-    });
-    await loadCapacityRoles();
-}
-
-// === SAUVEGARDE AUTO DE LA CAPACITÉ PRINCIPALE ===
-async function saveCapacityData() {
-    if (!currentTeamId || !currentSprintId) return;
-    const days = parseFloat(capacityDaysInput.value) || 0;
-    const percent = parseFloat(capacityPercentInput.value) || 100;
-    const res = await fetch(`${API}/capacity`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            team_id: currentTeamId,
-            sprint_id: currentSprintId,
-            days_sprint: days,
-            percent_run: percent
-        })
-    });
-    const cap = await res.json();
-    currentCapacityId = cap.id;
-}
-
-capacityTeamSelect.onchange = async function() {
-    currentTeamId = this.value;
-    await loadCapacitySprints();
-}
-capacitySprintSelect.onchange = async function() {
-    currentSprintId = this.value;
-    await loadCapacityData();
-}
-capacityDaysInput.onchange = async function() {
-    await saveCapacityData();
-    calcAndRenderCapacity();
-}
-capacityPercentInput.onchange = async function() {
-    await saveCapacityData();
-    calcAndRenderCapacity();
-}
-
-// === Initialisation de la page "Capacité" ===
-async function initCapacitySection() {
-    await loadCapacityTeams();
-}
-
-// Si tu veux initialiser directement la section à l'affichage
-if (capacitySection) {
-    initCapacitySection();
-}
-
-
-    // Démarrage
+    // ...FIN DU SCRIPT...
     fetchTeams();
     </script>
 </body>
