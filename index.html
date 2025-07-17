@@ -13,6 +13,11 @@
     <header>
         <h2>Suivi de vélocité</h2>
         <div class="subtitle"></div>
+        <nav>
+  <button onclick="showSection('velocitySection')">Vélocité</button>
+  <button onclick="showSection('capacitySection')">Capacité</button>
+</nav>
+
     </header>
     <main>
         <div class="row">
@@ -48,6 +53,43 @@
             </tr>
         </table>
         <div id="stats"></div>
+        <main id="capacitySection" style="display:none;">
+    <h2>Calculateur de capacité</h2>
+    <div class="row">
+        <label>Équipe :
+            <select id="capacityTeamSelect"></select>
+        </label>
+        <label>Sprint :
+            <select id="capacitySprintSelect"></select>
+        </label>
+    </div>
+    <div class="row">
+        <label>Jours du sprint :
+            <input type="number" id="capacityDaysInput" min="1" value="10">
+        </label>
+        <label>% RUN/rituel/innovation :
+            <input type="number" id="capacityPercentInput" min="0" max="100" value="70"> %
+        </label>
+    </div>
+    <table id="capacityRolesTable">
+        <thead>
+            <tr>
+                <th>Rôle</th>
+                <th>Nb personnes</th>
+                <th>Jours d'absence</th>
+                <th>Capacité brute</th>
+                <th>Capacité nette</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Lignes dynamiques JS -->
+        </tbody>
+    </table>
+    <button id="addRoleBtn">+ Ajouter un rôle</button>
+    <div id="capacityTotal"></div>
+</main>
+
     </main>
     <footer>
         Atman</b>
