@@ -7,497 +7,548 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h2>Suivi de vélocité</h2>
-        <nav>
-            <button onclick="showSection('velocitySection')">Vélocité</button>
-            <button onclick="showSection('capacitySection')">Capacité</button>
-        </nav>
-    </header>
+<header>
+    <h2>Suivi de vélocité</h2>
+    <nav>
+        <button onclick="showSection('velocitySection')">Vélocité</button>
+        <button onclick="showSection('capacitySection')">Capacité</button>
+    </nav>
+</header>
 
-    <!-- Section Vélocité -->
-    <main id="velocitySection" style="display:block;">
-        <div class="row">
-            <label>Équipe :
-                <select id="teamSelect"></select>
-            </label>
-            <input id="newTeamInput" placeholder="Nouvelle équipe">
-            <button id="addTeamBtn" title="Ajouter une nouvelle équipe">+ Équipe</button>
-            <button class="delete-btn" id="deleteTeamBtn" title="Supprimer l’équipe sélectionnée">🗑️</button>
-        </div>
-        <form class="inputs" onsubmit="return false;">
-            <label>Nom du sprint :
-                <input id="sprintNameInput" placeholder="Sprint 1">
-            </label>
-            <label>Capacité :
-                <input id="capacityInput" type="number" min="1" value="30">
-            </label>
-            <label>Points réalisés :
-                <input id="doneInput" type="number" min="0" value="0">
-            </label>
-            <button id="addSprintBtn" title="Ajouter ce sprint">+ Sprint</button>
-        </form>
-        <div class="actions">
-            <button id="resetBtn" style="red">Réinitialiser équipe</button>
-            <button id="exportBtn" style="green">Exporter CSV</button>
-        </div>
-        <table id="velocityTable">
+<main id="velocitySection" style="display:block;">
+    <div class="row">
+        <label>Équipe :
+            <select id="teamSelect"></select>
+        </label>
+        <input id="newTeamInput" placeholder="Nouvelle équipe">
+        <button id="addTeamBtn" title="Ajouter une nouvelle équipe">+ Équipe</button>
+        <button class="delete-btn" id="deleteTeamBtn" title="Supprimer l’équipe sélectionnée">🗑️</button>
+    </div>
+    <form class="inputs" onsubmit="return false;">
+        <label>Nom du sprint :
+            <input id="sprintNameInput" placeholder="Sprint 1">
+        </label>
+        <label>Capacité :
+            <input id="capacityInput" type="number" min="1" value="30">
+        </label>
+        <label>Points réalisés :
+            <input id="doneInput" type="number" min="0" value="0">
+        </label>
+        <button id="addSprintBtn" title="Ajouter ce sprint">+ Sprint</button>
+    </form>
+    <div class="actions">
+        <button id="resetBtn">Réinitialiser équipe</button>
+        <button id="exportBtn">Exporter CSV</button>
+    </div>
+    <table id="velocityTable">
+        <thead>
             <tr>
                 <th>#</th>
                 <th>Nom du sprint</th>
                 <th>Capacité</th>
                 <th>Points réalisés</th>
+                <th>Suppression</th>
             </tr>
-        </table>
-        <div id="stats"></div>
-    </main>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div id="stats"></div>
+</main>
 
-    <!-- Section Capacité -->
-    <main id="capacitySection" style="display:none;">
-        <h2>Calculateur de capacité</h2>
-        <div class="row">
-            <label>Équipe :
-                <select id="capacityTeamSelect"></select>
-            </label>
-        </div>
-        <div class="row">
-            <label>Nom du nouveau sprint :
-                <input id="newCapacitySprintInput" placeholder="Sprint X">
-            </label>
-            <button id="addCapacitySprintBtn">+ Sprint</button>
-        </div>
-        <div class="row">
-            <label>Sprint :
-                <select id="capacitySprintSelect"></select>
-            </label>
-        </div>
-        <div class="row">
-            <label>Jours du sprint :
-                <input type="number" id="capacityDaysInput" min="1" value="10">
-            </label>
-            <label>% RUN/rituel/innovation :
-                <input type="number" id="capacityPercentInput" min="0" max="100" value="70"> %
-            </label>
-        </div>
-        <table id="capacityRolesTable">
-            <thead>
-                <tr>
-                    <th>Rôle</th>
-                    <th>Nb personnes</th>
-                    <th>Jours d'absence</th>
-                    <th>Capacité brute</th>
-                    <th>Capacité nette</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Lignes dynamiques JS -->
-            </tbody>
-        </table>
-        <button id="addRoleBtn">+ Ajouter un rôle</button>
-        <div id="capacityTotal"></div>
-        <h3>Historique des capacités de l’équipe</h3>
-        <table id="capacityHistoryTable">
-            <thead>
-                <tr>
-                    <th>Sprint</th>
-                    <th>Jours</th>
-                    <th>% RUN</th>
-                    <th>Capacité brute</th>
-                    <th>Capacité nette</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Lignes générées JS -->
-            </tbody>
-        </table>
-    </main>
+<main id="capacitySection" style="display:none;">
+    <h2>Calculateur de capacité</h2>
+    <div class="row">
+        <label>Équipe :
+            <select id="capacityTeamSelect"></select>
+        </label>
+        <label>Rôles :
+            <select id="rolesSelect" multiple style="min-width:150px;"></select>
+        </label>
+        <input id="newRoleInput" placeholder="Nouveau rôle">
+        <button id="addRoleBtn">+ Rôle</button>
+        <button class="delete-btn" id="deleteRoleBtn">🗑️</button>
+    </div>
+    <div class="row">
+        <label>Nom du sprint :
+            <input id="capacitySprintInput" placeholder="Sprint 1">
+        </label>
+        <button id="addCapacitySprintBtn">+ Sprint Capacité</button>
+    </div>
+    <div class="row">
+        <label>Sprint :
+            <select id="capacitySprintSelect"></select>
+        </label>
+        <label>Jours du sprint :
+            <input type="number" id="capacityDaysInput" min="1" value="10">
+        </label>
+        <label>% RUN/rituel/innovation :
+            <input type="number" id="capacityPercentInput" min="0" max="100" value="70"> %
+        </label>
+        <button id="saveCapacityBtn">💾 Enregistrer</button>
+    </div>
+    <table id="capacityRolesTable">
+        <thead>
+            <tr>
+                <th>Rôle</th>
+                <th>Nb personnes</th>
+                <th>Jours d'absence</th>
+                <th>Capacité brute</th>
+                <th>Capacité nette</th>
+                <th>Suppression</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div id="capacityTotal"></div>
+    <h3>Historique des capacités</h3>
+    <table id="capacityHistoryTable">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Sprint</th>
+                <th>Jours</th>
+                <th>% RUN</th>
+                <th>Brute</th>
+                <th>Nette</th>
+                <th>Suppression</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</main>
+<footer>
+    Atman
+</footer>
 
-    <footer>
-        Atman
-    </footer>
+<script>
+const API = 'https://velocity-backend-7tdv.onrender.com/api';
+let teams = [];
+let roles = [];
+let sprints = [];
+let currentTeamId = null;
 
-    <!-- SCRIPTS -->
-    <script>
-    // --- Navigation entre sections
-    function showSection(id) {
-        document.getElementById('velocitySection').style.display = (id === 'velocitySection' ? 'block' : 'none');
-        document.getElementById('capacitySection').style.display = (id === 'capacitySection' ? 'block' : 'none');
-    }
+// --- Vélocité ---
+let velocitySprints = [];
+const teamSelect = document.getElementById('teamSelect');
+const newTeamInput = document.getElementById('newTeamInput');
+const addTeamBtn = document.getElementById('addTeamBtn');
+const deleteTeamBtn = document.getElementById('deleteTeamBtn');
+const sprintNameInput = document.getElementById('sprintNameInput');
+const capacityInput = document.getElementById('capacityInput');
+const doneInput = document.getElementById('doneInput');
+const addSprintBtn = document.getElementById('addSprintBtn');
+const velocityTable = document.getElementById('velocityTable').getElementsByTagName('tbody')[0];
+const resetBtn = document.getElementById('resetBtn');
+const exportBtn = document.getElementById('exportBtn');
+const statsDiv = document.getElementById('stats');
 
-    // --- JS Vélocité ---
-    const API = 'https://velocity-backend-7tdv.onrender.com/api'; // adapte si besoin
-
-    let teams = [];
-    let sprints = [];
-    let currentTeamId = null;
-
-    const teamSelect = document.getElementById('teamSelect');
-    const newTeamInput = document.getElementById('newTeamInput');
-    const addTeamBtn = document.getElementById('addTeamBtn');
-    const deleteTeamBtn = document.getElementById('deleteTeamBtn');
-    const sprintNameInput = document.getElementById('sprintNameInput');
-    const capacityInput = document.getElementById('capacityInput');
-    const doneInput = document.getElementById('doneInput');
-    const addSprintBtn = document.getElementById('addSprintBtn');
-    const velocityTable = document.getElementById('velocityTable');
-    const resetBtn = document.getElementById('resetBtn');
-    const exportBtn = document.getElementById('exportBtn');
-    const statsDiv = document.getElementById('stats');
-
-    async function fetchTeams() {
-        const res = await fetch(`${API}/teams`);
-        teams = await res.json();
-        updateTeamSelect();
-    }
-    function updateTeamSelect() {
-        teamSelect.innerHTML = '';
-        teams.forEach(team => {
-            let option = document.createElement('option');
-            option.value = team.id;
-            option.innerText = team.name;
-            teamSelect.appendChild(option);
-        });
-        if (teams.length) {
-            if (!currentTeamId || !teams.find(t => t.id === Number(currentTeamId))) currentTeamId = teams[0].id;
-            teamSelect.value = currentTeamId;
-            deleteTeamBtn.disabled = teams.length <= 1;
-            fetchSprints(currentTeamId);
-        } else {
-            velocityTable.innerHTML = '<tr><th>#</th><th>Nom du sprint</th><th>Capacité</th><th>Points réalisés</th></tr>';
-            statsDiv.innerHTML = '';
-            deleteTeamBtn.disabled = true;
-            sprints = [];
-        }
-    }
-    async function fetchSprints(team_id) {
-        const res = await fetch(`${API}/sprints/${team_id}`);
-        sprints = await res.json();
-        updateTable();
-        updateStats();
-    }
-    function updateTable() {
-        velocityTable.innerHTML = '<tr><th>#</th><th>Nom du sprint</th><th>Capacité</th><th>Points réalisés</th></tr>';
-        sprints.forEach((sprint, idx) => {
-            velocityTable.innerHTML += `<tr>
-                <td>${idx+1}</td>
-                <td>${sprint.name || ''}</td>
-                <td>${sprint.capacity}</td>
-                <td>${sprint.done}</td>
-            </tr>`;
-        });
-    }
-    function updateStats() {
-        if (!sprints.length) {
-            statsDiv.innerHTML = 'Pas de sprint ajouté.';
-            return;
-        }
-        const total = sprints.reduce((sum, s) => sum + s.done, 0);
-        const avg = (total / sprints.length).toFixed(2);
-        statsDiv.innerHTML = `<b>Vélocité moyenne :</b> ${avg} points/sprint`;
-    }
-    addTeamBtn.onclick = async function() {
-        const name = newTeamInput.value.trim();
-        if (name && !teams.find(t => t.name === name)) {
-            await fetch(`${API}/teams`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ name }) });
-            await fetchTeams();
-            currentTeamId = teams.find(t => t.name === name)?.id;
-            updateTeamSelect();
-            newTeamInput.value = '';
-        }
-    };
-    teamSelect.onchange = function() {
-        currentTeamId = this.value;
-        fetchSprints(currentTeamId);
-    };
-    addSprintBtn.onclick = async function() {
-        const sprintName = sprintNameInput.value.trim();
-        const capacity = parseInt(capacityInput.value, 10);
-        const done = parseInt(doneInput.value, 10);
-        if (!currentTeamId || isNaN(capacity) || isNaN(done)) return;
-        await fetch(`${API}/sprints`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ team_id: currentTeamId, name: sprintName, capacity, done }) });
+async function fetchTeams() {
+    const res = await fetch(`${API}/teams`);
+    teams = await res.json();
+    teamSelect.innerHTML = '';
+    teams.forEach(team => {
+        let option = document.createElement('option');
+        option.value = team.id;
+        option.innerText = team.name;
+        teamSelect.appendChild(option);
+    });
+    if (teams.length) {
+        currentTeamId = teams[0].id;
+        teamSelect.value = currentTeamId;
         await fetchSprints(currentTeamId);
-        sprintNameInput.value = '';
-    };
-    resetBtn.onclick = async function() {
-        if (!currentTeamId) return;
-        if (confirm("Effacer tous les sprints de cette équipe ?")) {
-            await fetch(`${API}/sprints/team/${currentTeamId}`, { method: 'DELETE' });
-            await fetchSprints(currentTeamId);
-        }
-    };
-    deleteTeamBtn.onclick = async function() {
-        if (!currentTeamId) return;
-        if (teams.length <= 1) {
-            alert("Il doit rester au moins une équipe !");
-            return;
-        }
-        if (confirm("Supprimer définitivement cette équipe et tous ses sprints ?")) {
-            await fetch(`${API}/teams/${currentTeamId}`, { method: 'DELETE' });
-            await fetchTeams();
-        }
-    };
-    exportBtn.onclick = function() {
-        if (!sprints.length) return;
-        let csv = "Numéro,Nom du sprint,Capacité,Points réalisés\n";
-        sprints.forEach((s, idx) => {
-            csv += `${idx+1},"${s.name ? s.name.replace(/"/g, '""') : ''}",${s.capacity},${s.done}\n`;
-        });
-        let blob = new Blob([csv], {type: 'text/csv'});
-        let url = URL.createObjectURL(blob);
-        let a = document.createElement('a');
-        a.href = url;
-        let t = teams.find(x => x.id == currentTeamId);
-        a.download = `velocite_${t ? t.name.replace(/\s/g,'_') : 'equipe'}.csv`;
-        a.click();
-        URL.revokeObjectURL(url);
-    };
-
-    // --- PARTIE CAPACITÉ & HISTORIQUE ---
-    let capacityTeams = [];
-    let capacitySprints = [];
-    let currentSprintId = null;
-    let currentCapacityId = null;
-    let currentRoles = [];
-
-    const capacitySection = document.getElementById('capacitySection');
-    const capacityTeamSelect = document.getElementById('capacityTeamSelect');
-    const capacitySprintSelect = document.getElementById('capacitySprintSelect');
-    const capacityDaysInput = document.getElementById('capacityDaysInput');
-    const capacityPercentInput = document.getElementById('capacityPercentInput');
-    const capacityRolesTable = document.getElementById('capacityRolesTable').getElementsByTagName('tbody')[0];
-    const addRoleBtn = document.getElementById('addRoleBtn');
-    const capacityTotal = document.getElementById('capacityTotal');
-    const newCapacitySprintInput = document.getElementById('newCapacitySprintInput');
-    const addCapacitySprintBtn = document.getElementById('addCapacitySprintBtn');
-    const capacityHistoryTable = document.getElementById('capacityHistoryTable').getElementsByTagName('tbody')[0];
-
-    addCapacitySprintBtn.onclick = async function() {
-        const name = newCapacitySprintInput.value.trim();
-        if (!currentTeamId || !name) return;
-        await fetch(`${API}/sprints`, {
-            method: "POST",
-            headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({ team_id: currentTeamId, name, capacity: 0, done: 0 })
-        });
-        newCapacitySprintInput.value = '';
-        await loadCapacitySprints();
-        await updateCapacityHistory();
-    };
-
-    async function loadCapacityTeams() {
-        const res = await fetch(`${API}/teams`);
-        capacityTeams = await res.json();
-        capacityTeamSelect.innerHTML = "";
-        capacityTeams.forEach(t => {
-            const opt = document.createElement('option');
-            opt.value = t.id;
-            opt.textContent = t.name;
-            capacityTeamSelect.appendChild(opt);
-        });
-        if (capacityTeams.length) {
-            currentTeamId = capacityTeams[0].id;
-            await loadCapacitySprints();
-        }
+        await fetchCapacityTeams();
     }
-
-    async function loadCapacitySprints() {
-        const res = await fetch(`${API}/sprints/${currentTeamId}`);
-        capacitySprints = await res.json();
-        capacitySprintSelect.innerHTML = "";
-        capacitySprints.forEach(s => {
-            const opt = document.createElement('option');
-            opt.value = s.id;
-            opt.textContent = s.name;
-            capacitySprintSelect.appendChild(opt);
-        });
-        if (capacitySprints.length) {
-            currentSprintId = capacitySprints[0].id;
-            await loadCapacityData();
-        }
-        await updateCapacityHistory();
+}
+teamSelect.onchange = async function() {
+    currentTeamId = this.value;
+    await fetchSprints(currentTeamId);
+    await fetchCapacityTeams();
+};
+addTeamBtn.onclick = async function() {
+    const name = newTeamInput.value.trim();
+    if (name && !teams.find(t => t.name === name)) {
+        await fetch(`${API}/teams`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ name }) });
+        await fetchTeams();
+        newTeamInput.value = '';
     }
-
-    async function loadCapacityData() {
-        if (!currentTeamId || !currentSprintId) return;
-        const res = await fetch(`${API}/capacity/${currentTeamId}/${currentSprintId}`);
-        const cap = await res.json();
-        if (cap) {
-            currentCapacityId = cap.id;
-            capacityDaysInput.value = cap.days_sprint;
-            capacityPercentInput.value = cap.percent_run;
-        } else {
-            currentCapacityId = null;
-            capacityDaysInput.value = 10;
-            capacityPercentInput.value = 70;
-        }
-        await loadCapacityRoles();
-        calcAndRenderCapacity();
+};
+deleteTeamBtn.onclick = async function() {
+    if (!currentTeamId) return;
+    if (teams.length <= 1) { alert("Il doit rester au moins une équipe !"); return; }
+    if (confirm("Supprimer cette équipe et tous ses sprints/capacités ?")) {
+        await fetch(`${API}/teams/${currentTeamId}`, { method: 'DELETE' });
+        await fetchTeams();
     }
-
-    async function loadCapacityRoles() {
-        if (!currentCapacityId) {
-            currentRoles = [];
-            renderRolesTable();
-            return;
-        }
-        const res = await fetch(`${API}/capacity_roles/${currentCapacityId}`);
-        currentRoles = await res.json();
-        renderRolesTable();
+};
+async function fetchSprints(team_id) {
+    const res = await fetch(`${API}/sprints/${team_id}`);
+    velocitySprints = await res.json();
+    renderVelocityTable();
+}
+addSprintBtn.onclick = async function() {
+    const name = sprintNameInput.value.trim();
+    const capacity = parseInt(capacityInput.value, 10);
+    const done = parseInt(doneInput.value, 10);
+    if (!currentTeamId || !name || isNaN(capacity) || isNaN(done)) return;
+    await fetch(`${API}/sprints`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ team_id: currentTeamId, name, capacity, done }) });
+    await fetchSprints(currentTeamId);
+    sprintNameInput.value = '';
+};
+resetBtn.onclick = async function() {
+    if (!currentTeamId) return;
+    if (confirm("Effacer tous les sprints de cette équipe ?")) {
+        await fetch(`${API}/sprints/team/${currentTeamId}`, { method: 'DELETE' });
+        await fetchSprints(currentTeamId);
     }
-
-    function renderRolesTable() {
-        capacityRolesTable.innerHTML = "";
-        currentRoles.forEach((r, idx) => {
-            const row = capacityRolesTable.insertRow();
-            row.innerHTML = `
-                <td><input type="text" value="${r.role}" onchange="editRole(${idx}, 'role', this.value)"></td>
-                <td><input type="number" min="0" value="${r.nbr_personnes}" onchange="editRole(${idx}, 'nbr_personnes', this.value)"></td>
-                <td><input type="number" min="0" value="${r.jours_absence}" onchange="editRole(${idx}, 'jours_absence', this.value)"></td>
-                <td id="brute-${idx}"></td>
-                <td id="nette-${idx}"></td>
-                <td><button onclick="deleteRole(${idx})">🗑️</button></td>
-            `;
-        });
-        calcAndRenderCapacity();
+};
+exportBtn.onclick = function() {
+    if (!velocitySprints.length) return;
+    let csv = "Numéro,Nom du sprint,Capacité,Points réalisés\n";
+    velocitySprints.forEach((s, idx) => {
+        csv += `${idx+1},"${s.name ? s.name.replace(/"/g, '""') : ''}",${s.capacity},${s.done}\n`;
+    });
+    let blob = new Blob([csv], {type: 'text/csv'});
+    let url = URL.createObjectURL(blob);
+    let a = document.createElement('a');
+    a.href = url;
+    let t = teams.find(x => x.id == currentTeamId);
+    a.download = `velocite_${t ? t.name.replace(/\s/g,'_') : 'equipe'}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+};
+function renderVelocityTable() {
+    velocityTable.innerHTML = '';
+    velocitySprints.forEach((s, idx) => {
+        let tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${idx+1}</td>
+            <td>${s.name || ''}</td>
+            <td>${s.capacity}</td>
+            <td>${s.done}</td>
+            <td><button onclick="deleteVelocitySprint(${s.id})">🗑️</button></td>
+        `;
+        velocityTable.appendChild(tr);
+    });
+    if (velocitySprints.length) {
+        const avg = (velocitySprints.reduce((sum, s) => sum + s.done, 0) / velocitySprints.length).toFixed(2);
+        statsDiv.innerHTML = `<b>Vélocité moyenne :</b> ${avg} points/sprint`;
+    } else {
+        statsDiv.innerHTML = '';
     }
+}
+window.deleteVelocitySprint = async function(sprintId) {
+    if (!confirm("Supprimer ce sprint ?")) return;
+    await fetch(`${API}/sprints/${sprintId}`, { method: 'DELETE' });
+    await fetchSprints(currentTeamId);
+};
 
-    function calcAndRenderCapacity() {
-        const days = parseFloat(capacityDaysInput.value) || 0;
-        const percent = parseFloat(capacityPercentInput.value) || 100;
-        let totalNette = 0;
-        let totalBrute = 0;
-        currentRoles.forEach((r, idx) => {
-            const capBrute = (r.nbr_personnes || 0) * days - (r.jours_absence || 0);
-            const capNette = capBrute * (percent / 100);
-            totalBrute += capBrute;
-            totalNette += capNette;
-            const cellBrute = document.getElementById(`brute-${idx}`);
-            const cellNette = document.getElementById(`nette-${idx}`);
-            if (cellBrute) cellBrute.textContent = Math.round(capBrute * 100) / 100;
-            if (cellNette) cellNette.textContent = Math.round(capNette * 100) / 100;
-        });
-        capacityTotal.innerHTML = `<b>Capacité totale brute :</b> ${Math.round(totalBrute*100)/100} &nbsp; | &nbsp; <b>Capacité nette :</b> ${Math.round(totalNette*100)/100}`;
-    }
+// --- Capacité & rôles centralisés ---
+let capacityTeams = [];
+let capacitySprints = [];
+let currentCapTeamId = null;
+let rolesList = [];
+let capSprintList = [];
+let currentSprintId = null;
+let currentCapacityId = null;
+let currentCapRoles = [];
 
-    window.editRole = async function(idx, field, value) {
-        const role = currentRoles[idx];
-        role[field] = (field === "role") ? value : Number(value);
-        await fetch(`${API}/capacity_role`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                id: role.id,
-                capacity_id: currentCapacityId,
-                role: role.role,
-                nbr_personnes: role.nbr_personnes,
-                jours_absence: role.jours_absence
-            })
-        });
-        await loadCapacityRoles();
-        await updateCapacityHistory();
-    }
+const capacityTeamSelect = document.getElementById('capacityTeamSelect');
+const rolesSelect = document.getElementById('rolesSelect');
+const newRoleInput = document.getElementById('newRoleInput');
+const addRoleBtn = document.getElementById('addRoleBtn');
+const deleteRoleBtn = document.getElementById('deleteRoleBtn');
+const capacitySprintInput = document.getElementById('capacitySprintInput');
+const addCapacitySprintBtn = document.getElementById('addCapacitySprintBtn');
+const capacitySprintSelect = document.getElementById('capacitySprintSelect');
+const capacityDaysInput = document.getElementById('capacityDaysInput');
+const capacityPercentInput = document.getElementById('capacityPercentInput');
+const saveCapacityBtn = document.getElementById('saveCapacityBtn');
+const capacityRolesTable = document.getElementById('capacityRolesTable').getElementsByTagName('tbody')[0];
+const capacityTotal = document.getElementById('capacityTotal');
+const capacityHistoryTable = document.getElementById('capacityHistoryTable').getElementsByTagName('tbody')[0];
 
-    window.deleteRole = async function(idx) {
-        if (!confirm("Supprimer ce rôle ?")) return;
-        const role = currentRoles[idx];
-        await fetch(`${API}/capacity_role/${role.id}`, { method: "DELETE" });
-        await loadCapacityRoles();
-        await updateCapacityHistory();
-    }
+// Rôles centralisés API
+async function fetchRoles() {
+    // Si tu veux centraliser les rôles : crée un endpoint /api/roles !
+    // Ici, on simule avec localStorage
+    rolesList = JSON.parse(localStorage.getItem('rolesList')||'[]');
+    renderRolesSelect();
+}
+function renderRolesSelect() {
+    rolesSelect.innerHTML = '';
+    rolesList.forEach(role => {
+        let opt = document.createElement('option');
+        opt.value = role.id;
+        opt.innerText = role.name;
+        rolesSelect.appendChild(opt);
+    });
+}
+addRoleBtn.onclick = function() {
+    const name = newRoleInput.value.trim();
+    if (!name || rolesList.find(r=>r.name===name)) return;
+    const id = 'R'+Date.now();
+    rolesList.push({id, name});
+    localStorage.setItem('rolesList', JSON.stringify(rolesList));
+    renderRolesSelect();
+    newRoleInput.value = '';
+}
+deleteRoleBtn.onclick = function() {
+    const selected = Array.from(rolesSelect.selectedOptions).map(o=>o.value);
+    if (!selected.length) return;
+    if (!confirm("Supprimer ce(s) rôle(s) ?")) return;
+    rolesList = rolesList.filter(r=>!selected.includes(r.id));
+    localStorage.setItem('rolesList',JSON.stringify(rolesList));
+    renderRolesSelect();
+    refreshCapacities();
+}
+fetchRoles();
 
-    addRoleBtn.onclick = async function() {
-        if (!currentCapacityId) {
-            await saveCapacityData();
-        }
-        await fetch(`${API}/capacity_role`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                capacity_id: currentCapacityId,
-                role: "Nouveau rôle",
-                nbr_personnes: 1,
-                jours_absence: 0
-            })
-        });
-        await loadCapacityRoles();
-        await updateCapacityHistory();
+async function fetchCapacityTeams() {
+    // Ici on recycle teams
+    capacityTeams = teams;
+    capacityTeamSelect.innerHTML = '';
+    capacityTeams.forEach(team => {
+        let opt = document.createElement('option');
+        opt.value = team.id;
+        opt.innerText = team.name;
+        capacityTeamSelect.appendChild(opt);
+    });
+    if (capacityTeams.length) {
+        currentCapTeamId = capacityTeams[0].id;
+        capacityTeamSelect.value = currentCapTeamId;
+        await fetchCapacitySprints(currentCapTeamId);
     }
-
-    async function saveCapacityData() {
-        if (!currentTeamId || !currentSprintId) return;
-        const days = parseFloat(capacityDaysInput.value) || 0;
-        const percent = parseFloat(capacityPercentInput.value) || 100;
-        const res = await fetch(`${API}/capacity`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                team_id: currentTeamId,
-                sprint_id: currentSprintId,
-                days_sprint: days,
-                percent_run: percent
-            })
-        });
-        const cap = await res.json();
-        currentCapacityId = cap.id;
-        await updateCapacityHistory();
-    }
-
-    capacityTeamSelect.onchange = async function() {
-        currentTeamId = this.value;
-        await loadCapacitySprints();
-        await updateCapacityHistory();
-    }
-    capacitySprintSelect.onchange = async function() {
-        currentSprintId = this.value;
+}
+capacityTeamSelect.onchange = async function() {
+    currentCapTeamId = this.value;
+    await fetchCapacitySprints(currentCapTeamId);
+}
+addCapacitySprintBtn.onclick = async function() {
+    const name = capacitySprintInput.value.trim();
+    if (!currentCapTeamId || !name) return;
+    await fetch(`${API}/sprints`, {
+        method: "POST",
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ team_id: currentCapTeamId, name, capacity: 0, done: 0 })
+    });
+    capacitySprintInput.value = '';
+    await fetchCapacitySprints(currentCapTeamId);
+};
+async function fetchCapacitySprints(teamId) {
+    const res = await fetch(`${API}/sprints/${teamId}`);
+    capSprintList = await res.json();
+    capacitySprintSelect.innerHTML = '';
+    capSprintList.forEach(s => {
+        let opt = document.createElement('option');
+        opt.value = s.id;
+        opt.innerText = s.name;
+        capacitySprintSelect.appendChild(opt);
+    });
+    if (capSprintList.length) {
+        currentSprintId = capSprintList[0].id;
+        capacitySprintSelect.value = currentSprintId;
         await loadCapacityData();
     }
-    capacityDaysInput.onchange = async function() {
-        await saveCapacityData();
-        calcAndRenderCapacity();
-    }
-    capacityPercentInput.onchange = async function() {
-        await saveCapacityData();
-        calcAndRenderCapacity();
-    }
+    await refreshCapacities();
+}
+capacitySprintSelect.onchange = async function() {
+    currentSprintId = this.value;
+    await loadCapacityData();
+};
 
-    async function updateCapacityHistory() {
-        if (!currentTeamId) return;
-        const res = await fetch(`${API}/capacities/${currentTeamId}`);
-        const caps = await res.json();
-        capacityHistoryTable.innerHTML = '';
-        for (const cap of caps) {
-            const resRoles = await fetch(`${API}/capacity_roles/${cap.id}`);
-            const roles = await resRoles.json();
-            let brute = 0, nette = 0;
-            for (const r of roles) {
-                const capBrute = (r.nbr_personnes || 0) * cap.days_sprint - (r.jours_absence || 0);
-                const capNette = capBrute * (cap.percent_run / 100);
-                brute += capBrute;
-                nette += capNette;
-            }
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${cap.sprint_id ? (capacitySprints.find(s => s.id == cap.sprint_id)?.name || '') : ''}</td>
-                <td>${cap.days_sprint}</td>
-                <td>${cap.percent_run}</td>
-                <td>${Math.round(brute*100)/100}</td>
-                <td>${Math.round(nette*100)/100}</td>
-            `;
-            capacityHistoryTable.appendChild(tr);
+async function loadCapacityData() {
+    if (!currentCapTeamId || !currentSprintId) return;
+    // On suppose un seul calcul de capacité par équipe/sprint
+    const res = await fetch(`${API}/capacity/${currentCapTeamId}/${currentSprintId}`);
+    const cap = await res.json();
+    if (cap) {
+        currentCapacityId = cap.id;
+        capacityDaysInput.value = cap.days_sprint;
+        capacityPercentInput.value = cap.percent_run;
+        // Charger les rôles associés
+        const resRoles = await fetch(`${API}/capacity_roles/${cap.id}`);
+        currentCapRoles = await resRoles.json();
+    } else {
+        currentCapacityId = null;
+        currentCapRoles = [];
+        capacityDaysInput.value = 10;
+        capacityPercentInput.value = 70;
+    }
+    renderCapRolesTable();
+    calcAndRenderCapacity();
+}
+saveCapacityBtn.onclick = async function() {
+    if (!currentCapTeamId || !currentSprintId) return;
+    const days = parseFloat(capacityDaysInput.value) || 0;
+    const percent = parseFloat(capacityPercentInput.value) || 100;
+    // Crée ou MAJ capacité
+    const res = await fetch(`${API}/capacity`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            team_id: currentCapTeamId,
+            sprint_id: currentSprintId,
+            days_sprint: days,
+            percent_run: percent
+        })
+    });
+    const cap = await res.json();
+    currentCapacityId = cap.id;
+    // Enregistre tous les rôles sélectionnés
+    for (const r of currentCapRoles) {
+        await fetch(`${API}/capacity_role`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                id: r.id,
+                capacity_id: cap.id,
+                role: r.role,
+                nbr_personnes: r.nbr_personnes,
+                jours_absence: r.jours_absence
+            })
+        });
+    }
+    await refreshCapacities();
+    await loadCapacityData();
+}
+function renderCapRolesTable() {
+    capacityRolesTable.innerHTML = '';
+    currentCapRoles.forEach((r, idx) => {
+        capacityRolesTable.innerHTML += `
+            <tr>
+                <td><select onchange="editCapRoleName(${idx}, this.value)">
+                    ${rolesList.map(role=>
+                        `<option value="${role.name}"${r.role===role.name?' selected':''}>${role.name}</option>`
+                    ).join('')}
+                </select></td>
+                <td><input type="number" min="0" value="${r.nbr_personnes||0}" onchange="editCapRole(${idx},'nbr_personnes',this.value)"></td>
+                <td><input type="number" min="0" value="${r.jours_absence||0}" onchange="editCapRole(${idx},'jours_absence',this.value)"></td>
+                <td>${Math.round(((r.nbr_personnes||0)*parseFloat(capacityDaysInput.value||0)-(r.jours_absence||0))*100)/100}</td>
+                <td>${Math.round((((r.nbr_personnes||0)*parseFloat(capacityDaysInput.value||0)-(r.jours_absence||0))*(parseFloat(capacityPercentInput.value||100)/100))*100)/100}</td>
+                <td><button onclick="deleteCapRole(${idx})">🗑️</button></td>
+            </tr>
+        `;
+    });
+}
+window.editCapRole = function(idx, field, value) {
+    currentCapRoles[idx][field] = parseFloat(value)||0;
+    renderCapRolesTable();
+    calcAndRenderCapacity();
+};
+window.editCapRoleName = function(idx, val) {
+    currentCapRoles[idx].role = val;
+    renderCapRolesTable();
+    calcAndRenderCapacity();
+};
+window.deleteCapRole = function(idx) {
+    currentCapRoles.splice(idx,1);
+    renderCapRolesTable();
+    calcAndRenderCapacity();
+}
+document.getElementById('addRoleBtn').onclick = function() {
+    // Ajoute un rôle à la capacité courante
+    if (!rolesList.length) { alert("Ajoutez d'abord des rôles !"); return; }
+    // Par défaut, ajoute le premier rôle dispo
+    currentCapRoles.push({ role: rolesList[0].name, nbr_personnes: 1, jours_absence: 0 });
+    renderCapRolesTable();
+    calcAndRenderCapacity();
+};
+function calcAndRenderCapacity() {
+    const days = parseFloat(capacityDaysInput.value) || 0;
+    const percent = parseFloat(capacityPercentInput.value) || 100;
+    let totalBrute = 0, totalNette = 0;
+    currentCapRoles.forEach((r, idx) => {
+        const capBrute = (r.nbr_personnes || 0) * days - (r.jours_absence || 0);
+        const capNette = capBrute * (percent / 100);
+        totalBrute += capBrute;
+        totalNette += capNette;
+    });
+    capacityTotal.innerHTML = `<b>Capacité totale brute :</b> ${Math.round(totalBrute*100)/100} &nbsp; | &nbsp; <b>Capacité nette :</b> ${Math.round(totalNette*100)/100}`;
+}
+
+// --- Historique capacité avec accordion (détail rôles) ---
+async function refreshCapacities() {
+    if (!currentCapTeamId) return;
+    const res = await fetch(`${API}/capacities/${currentCapTeamId}`);
+    const caps = await res.json();
+    capacityHistoryTable.innerHTML = '';
+    for (const cap of caps) {
+        const resRoles = await fetch(`${API}/capacity_roles/${cap.id}`);
+        const roles = await resRoles.json();
+        let brute = 0, nette = 0;
+        for (const r of roles) {
+            const capBrute = (r.nbr_personnes || 0) * cap.days_sprint - (r.jours_absence || 0);
+            const capNette = capBrute * (cap.percent_run / 100);
+            brute += capBrute;
+            nette += capNette;
         }
+        let idAccordion = 'acc_' + cap.id;
+        let tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td><button class="accordionBtn" onclick="toggleAccordion('${idAccordion}')">▶</button></td>
+            <td>${cap.sprint_id ? (capSprintList.find(s => s.id == cap.sprint_id)?.name || '') : ''}</td>
+            <td>${cap.days_sprint}</td>
+            <td>${cap.percent_run}</td>
+            <td>${Math.round(brute*100)/100}</td>
+            <td>${Math.round(nette*100)/100}</td>
+            <td><button onclick="deleteCapacity('${cap.id}')">🗑️</button></td>
+        `;
+        capacityHistoryTable.appendChild(tr);
+        // détail accordion
+        let trDetail = document.createElement('tr');
+        trDetail.className = 'accordionContent';
+        trDetail.id = idAccordion;
+        trDetail.style.display = 'none';
+        trDetail.innerHTML = `<td colspan="7">
+            <table class="table-inner">
+                <thead>
+                    <tr>
+                        <th>Rôle</th>
+                        <th>Nb personnes</th>
+                        <th>Absences</th>
+                        <th>Capacité brute</th>
+                        <th>Capacité nette</th>
+                    </tr>
+                </thead>
+                <tbody>
+                ${
+                    roles.map(r=>{
+                        let capBrute = (r.nbr_personnes||0)*cap.days_sprint-(r.jours_absence||0);
+                        let capNette = capBrute*(cap.percent_run/100);
+                        return `<tr>
+                            <td>${r.role}</td>
+                            <td>${r.nbr_personnes||0}</td>
+                            <td>${r.jours_absence||0}</td>
+                            <td>${Math.round(capBrute*100)/100}</td>
+                            <td>${Math.round(capNette*100)/100}</td>
+                        </tr>`;
+                    }).join('')
+                }
+                </tbody>
+            </table>
+        </td>`;
+        capacityHistoryTable.appendChild(trDetail);
     }
+}
+window.toggleAccordion = function(id) {
+    let el = document.getElementById(id);
+    if (el) {
+        el.style.display = (el.style.display==='none'?'table-row':'none');
+    }
+};
+window.deleteCapacity = async function(capId) {
+    if (!confirm("Supprimer cette capacité ?")) return;
+    await fetch(`${API}/capacity/${capId}`, { method: "DELETE" });
+    await refreshCapacities();
+};
 
-    async function initCapacitySection() {
-        await loadCapacityTeams();
-        await updateCapacityHistory();
-    }
-    if (capacitySection) {
-        initCapacitySection();
-    }
+function showSection(id) {
+    document.getElementById('velocitySection').style.display = (id === 'velocitySection' ? 'block' : 'none');
+    document.getElementById('capacitySection').style.display = (id === 'capacitySection' ? 'block' : 'none');
+}
 
-    // Démarrage global
-    fetchTeams();
-    </script>
+// Initialisation
+fetchTeams();
+</script>
 </body>
 </html>
